@@ -32,4 +32,9 @@ class Company extends Model
     {
         return $this->hasMany('App\ServiceRequest');
     }
+
+    public function features()
+    {
+        return $this->hasMany('App\HomeFeature');
+    }
 }

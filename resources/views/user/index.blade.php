@@ -174,20 +174,20 @@
                 <div class="col-md-12">
                     <div class="flat-client" data-item="4" data-nav="true" data-dots="false" data-auto="false">
                         @foreach(App\Type::all() as $type)
-                        <div class="client">
-                            <div class="featured-client">
-                                <img src="/assets/images/clients/1.jpg" alt="image">
-                            </div>
-                            <div class="content-client clearfix">
-                                <div class="icon">
-                                    <img src="/assets/images/clients/icon1.png" alt="image">
+                            <div class="client">
+                                <div class="featured-client">
+                                    <img src="/assets/images/clients/1.jpg" alt="image">
                                 </div>
-                                <div class="text">
-                                    <h6><a href="/homes/{{$type->id}}" title="">{{$type->name}}</a></h6>
-                                    <p>{{$type->companies->count()}} homes available</p>
+                                <div class="content-client clearfix">
+                                    <div class="icon">
+                                        <img src="/assets/images/clients/icon1.png" alt="image">
+                                    </div>
+                                    <div class="text">
+                                        <h6><a href="/homes/{{$type->id}}" title="">{{$type->name}}</a></h6>
+                                        <p>{{$type->companies->count()}} homes available</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div><!-- /.flat-client -->
                 </div>
@@ -195,35 +195,35 @@
         </div>
     </section>
     @if(sizeof($most_viewed_services)>0)
-    <section class="flat-row section-product bg-theme">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="title-section text-center">
-                        <h1 class="title">Most Visited Homes</h1>
-                        <div class="sub-title">
-                            Some Great Homes you Should not Miss
-                        </div>
+        <section class="flat-row section-product bg-theme">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title-section text-center">
+                            <h1 class="title">Most Visited Homes</h1>
+                            <div class="sub-title">
+                                Some Great Homes you Should not Miss
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="wrap-flat-product clearfix">
-                    @foreach($most_viewed_services as $most_viewed)
-                    <div class="flat-product">
-                        <div class="featured-product">
-                            <img src="/images/services/service_listing_364x244/{{$most_viewed->image}}" alt="image">
-                            <div class="time bg-green">
-                                Now Open
-                            </div>
-                            <div class="rate-product">
-                                <div class="link-review clearfix">
-                                    <div class="button-product float-left">
-                                        <button type="button" class="flat-button" style="color:black">
-                                            $ {{number_format($most_viewed->price)}}</button>
+                <div class="row">
+                    <div class="wrap-flat-product clearfix">
+                        @foreach($most_viewed_services as $most_viewed)
+                            <div class="flat-product">
+                                <div class="featured-product">
+                                    <img src="/images/services/service_listing_364x244/{{$most_viewed->image}}" alt="image">
+                                    <div class="time bg-green">
+                                        Now Open
                                     </div>
-                                    <div class="start-review float-right">
+                                    <div class="rate-product">
+                                        <div class="link-review clearfix">
+                                            <div class="button-product float-left">
+                                                <button type="button" class="flat-button" style="color:black">
+                                                    $ {{number_format($most_viewed->price)}}</button>
+                                            </div>
+                                            <div class="start-review float-right">
                                         <span class="flat-start">
                                             @for ($k=1; $k <= 5 ; $k++)
                                                 <span data-title="Average Rate: 5 / 5"
@@ -233,71 +233,71 @@
                                             @endfor
                                             ({{$most_viewed->rating}})
                                         </span>
-                                        <a href="#" class="review">( 2 reviewers )</a>
+                                                <a href="#" class="review">( 2 reviewers )</a>
+                                            </div>
+                                        </div>
+                                        <div class="info-product">
+                                            <h6 class="title"><a href="/{{$most_viewed->slug}}">{{$most_viewed->name}}</a></h6>
+                                            <p>208 W 70th Street, New York, NY</p>
+                                            <a href="#" class="heart">
+                                                <i class="ion-android-favorite-outline"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="info-product">
-                                    <h6 class="title"><a href="/{{$most_viewed->slug}}">{{$most_viewed->name}}</a></h6>
-                                    <p>208 W 70th Street, New York, NY</p>
-                                    <a href="#" class="heart">
-                                        <i class="ion-android-favorite-outline"></i>
-                                    </a>
+                                <div class="content-product">
+                                    <div class="tm">
+                                        ({{$most_viewed->views}})
+                                    </div>
+                                    <div class="text">
+                                        <p>{!! str_limit($most_viewed->description, $limit = 200, $end = '...') !!}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="content-product">
-                            <div class="tm">
-                                ({{$most_viewed->views}})
-                            </div>
-                            <div class="text">
-                                <p>{!! str_limit($most_viewed->description, $limit = 200, $end = '...') !!}</p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
-            </div>
 
-        </div>
-    </section>
+            </div>
+        </section>
     @endif
     @if(sizeof($experiences)>0)
-    <section class="flat-row section-product bg-theme">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="title-section text-center">
-                        <h1 class="title">Most Enjoyed Experiences</h1>
-                        <div class="sub-title">
-                            The Events and Experiences that you Can Miss!
-                        </div>
+        <section class="flat-row section-product bg-theme">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title-section text-center">
+                            <h1 class="title">Most Enjoyed Experiences</h1>
+                            <div class="sub-title">
+                                The Events and Experiences that you Can Miss!
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="row experience-carousel">
-                @foreach($experiences as $experience)
-                        <div class="carousel-inner">
-                            <div class="col-sm-12">
-                                <article class="testimonial animated fadeInUpShort clearfix">
-                                    <figure class="avatar">
-                                        <img src="/images/users/contact_user_74x74/{{$experience->user->image}}" alt="avatar"/>
-                                    </figure>
-                                    <div class="contents">
-                                        <p>“{{$experience->details}}”
-                                        </p>
-                                        <cite class="fn">- <strong>{{$experience->user->name}}</strong></cite>
-                                    </div>
-                                </article>
+                <div class="row">
+                    <div class="row experience-carousel">
+                        @foreach($experiences as $experience)
+                            <div class="carousel-inner">
+                                <div class="col-sm-12">
+                                    <article class="testimonial animated fadeInUpShort clearfix">
+                                        <figure class="avatar">
+                                            <img src="/images/users/contact_user_74x74/{{$experience->user->image}}" alt="avatar"/>
+                                        </figure>
+                                        <div class="contents">
+                                            <p>“{{$experience->details}}”
+                                            </p>
+                                            <cite class="fn">- <strong>{{$experience->user->name}}</strong></cite>
+                                        </div>
+                                    </article>
+                                </div>
                             </div>
-                        </div>
-                @endforeach
+                        @endforeach
+                    </div>
                 </div>
-            </div>
 
-        </div>
-    </section>
+            </div>
+        </section>
     @endif
 
     <section class="flat-row section-download parallax parallax2">
@@ -321,110 +321,55 @@
         </div>
     </section>
 
-    <section class="flat-row blog-shortcode">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="title-section style2">
-                        <h1 class="title">Guests & Hosts Tips</h1>
+    @if(sizeof($posts)>0)
+        <section class="flat-row blog-shortcode">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title-section style2">
+                            <h1 class="title">Guests & Hosts Tips</h1>
+                        </div>
                     </div>
                 </div>
+                <div class="row">
+                    @foreach($posts as $post)
+                        <div class="col-lg-4 col-sm-6">
+                            <article class="post clearfix">
+                                <div class="featured-post">
+                                    <a href="{{route('user.show.posts',['slug'=>$post->slug])}}">
+                                        <img src="/images/blog/user_810x400/{{$post->image}}" alt="image"></a>
+                                    <ul class="post-comment">
+                                        <li class="date">
+                                            <i class="fa fa-clock-o"></i>
+                                        </li>
+                                        <li class="month">
+                                            {{ $post->created_at->format('M d, Y \a\t h:i a') }}
+                                        </li>
+                                    </ul>
+                                </div><!-- /.feature-post -->
+                                <div class="content-post">
+                                    <ul class="meta-data clearfix">
+                                        <li class="category">
+                                            <a href="#">{{$post->comments->count()}} Comments</a>
+                                        </li>
+                                        <li>Posted by: <a href="#">{{$post->author->username}}</a></li>
+                                    </ul><!-- /.meta-post -->
+                                    <h3 class="title-post">
+                                        <a href="{{route('user.show.posts',['slug'=>$post->slug])}}">
+                                            {{$post->title}}
+                                        </a></h3>
+                                    <p>{!! str_limit($post->body, $limit = 250, $end = '...') !!}</p>
+                                    <div class="more-link">
+                                        <a href="{{route('user.show.posts',['slug'=>$post->slug])}}">Read More</a>
+                                    </div>
+                                </div><!-- /.content-post -->
+                            </article>
+                        </div>
+                    @endforeach
+                </div>
             </div>
-            <div class="row">
-                <div class="col-lg-4 col-sm-6">
-                    <article class="post clearfix">
-                        <div class="featured-post">
-                            <a href="blog-single.html"><img src="/assets/images/blog/s1.jpg" alt="image"></a>
-                            <ul class="post-comment">
-                                <li class="date">
-                                    27
-                                </li>
-                                <li class="month">
-                                    AUG
-                                </li>
-                            </ul>
-                        </div><!-- /.feature-post -->
-                        <div class="content-post">
-                            <ul class="meta-data clearfix">
-                                <li class="category">
-                                    Posted in: <a href="#">Restaurant, </a><a href="#">Hotel</a>
-                                </li>
-                                <li> by: <a href="#">admin</a></li>
-                            </ul><!-- /.meta-post -->
-                            <h3 class="title-post"><a href="blog-single.html">
-                                    Top 10 French restaurants
-                                </a></h3>
-                            <p>Sed ut perspiciatis unde omnis iste error sit luptatem accusantium doloremque lau dantium, </p>
-                            <div class="more-link">
-                                <a href="blog-single.html">Read More</a>
-                            </div>
-                        </div><!-- /.content-post -->
-                    </article>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <article class="post clearfix">
-                        <div class="featured-post">
-                            <a href="blog-single.html"><img src="/assets/images/blog/s2.jpg" alt="image"></a>
-                            <ul class="post-comment">
-                                <li class="date">
-                                    21
-                                </li>
-                                <li class="month">
-                                    DEC
-                                </li>
-                            </ul>
-                        </div><!-- /.feature-post -->
-                        <div class="content-post">
-                            <ul class="meta-data clearfix">
-                                <li class="category">
-                                    Posted in: <a href="#">Restaurant, </a><a href="#">Hotel</a>
-                                </li>
-                                <li> by: <a href="#">admin</a></li>
-                            </ul><!-- /.meta-post -->
-                            <h3 class="title-post"><a href="blog-single.html">
-                                    6 Tips to retain your top sales talent
-                                </a></h3>
-                            <p>Sed ut perspiciatis unde omnis iste error sit luptatem accusantium doloremque lau dantium, </p>
-                            <div class="more-link">
-                                <a href="blog-single.html">Read More</a>
-                            </div>
-                        </div><!-- /.content-post -->
-                    </article>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <article class="post clearfix">
-                        <div class="featured-post">
-                            <a href="blog-single.html"><img src="/assets/images/blog/s3.jpg" alt="image"></a>
-                            <ul class="post-comment">
-                                <li class="date">
-                                    18
-                                </li>
-                                <li class="month">
-                                    JUN
-                                </li>
-                            </ul>
-                        </div><!-- /.feature-post -->
-                        <div class="content-post">
-                            <ul class="meta-data clearfix">
-                                <li class="category">
-                                    Posted in: <a href="#">Restaurant, </a><a href="#">Hotel</a>
-                                </li>
-                                <li> by: <a href="#">admin</a></li>
-                            </ul><!-- /.meta-post -->
-                            <h3 class="title-post"><a href="blog-single.html">
-                                    Top 10 French restaurants
-                                </a></h3>
-                            <p>Sed ut perspiciatis unde omnis iste error sit luptatem accusantium doloremque lau dantium, </p>
-                            <div class="more-link">
-                                <a href="blog-single.html">Read More</a>
-                            </div>
-                        </div><!-- /.content-post -->
-                    </article>
-                </div>
-
-            </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     <section class="flat-row v1 bg-theme">
         <div class="container">

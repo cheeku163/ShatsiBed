@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Category;
 use App\Company;
 use App\Review;
+use App\Post;
 use App\Service;
 use App\SavedSearch;
 
@@ -24,13 +25,15 @@ class HomeController extends Controller
         $most_viewed_services = Company::where('active', 1)->orderBy('views', 'DESC')->take(15)->get();
         $recent_services = Company::where('active', 1)->orderBy('created_at', 'DESC')->take(20)->get();
         $populars = PopularDestination::orderBy('created_at', 'DESC')->get();
+        $posts = Post::orderBy('created_at','DESC')->take(3)->get();
         //return $categories;
         return view('user.index')
             ->with('experiences', $experience)
             ->with('featured_services', $featured_services)
             ->with('most_viewed_services', $most_viewed_services)
             ->with('recent_services', $recent_services)
-            ->with('populars', $populars);
+            ->with('populars', $populars)
+            ->with('posts', $posts);
     }
 
     function destinationDetails($name)

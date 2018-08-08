@@ -60,7 +60,7 @@
                                 @foreach($companies as $company)
                                     <div class="flat-product clearfix">
                                         <div class="featured-product">
-                                            <img src="/images/services/single_service_1170x600/{{$company->image}}" alt="image">
+                                            <img src="/images/services/user_listing_290x182/{{$company->image}}" alt="image">
                                             <div class="time bg-green">
                                                 Now Open
                                             </div>
@@ -70,11 +70,7 @@
                                                 <div class="button-product float-left">
                                                     <button type="button" class="flat-button">$ {{number_format($company->price)}}</button>
                                                 </div>
-                                                <div class="button-product float-left">
-                                                    <button type="button" class="flat-button"
-                                                            onclick="location.href='/homes/{{$company->type->id}}'">
-                                                        {{$company->type->name}}</button>
-                                                </div>
+
                                                 <div class="start-review">
                                         <span class="flat-start">
                                             @for ($k=1; $k <= 5 ; $k++)
@@ -89,11 +85,26 @@
                                             <div class="info-product">
                                                 <h6 class="title"><a href="/{{$company->slug}}">{{$company->name}}</a></h6>
                                                 <p>{{$company->address}}, {{$company->district}}, {{$company->country}}</p>
-                                                <a href="#" class="heart">
-                                                    <i class="ion-android-favorite-outline"></i>
-                                                </a>
+
                                             </div>
                                         </div>
+                                        <ul class="wrap-button float-right">
+                                            <li>
+                                                <div class="button-product float-right">
+                                                    <a href="#">
+                                                        <span onclick="location.href='/homes/{{$company->type->id}}'">
+                                                            {{$company->type->name}}</span></a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="button" onclick="location.href='/home/{{$company->slug}}/edit'">
+                                                    <i class="ion-edit"></i><span>Edit</span></button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="button" onclick="location.href='#'">
+                                                    <i class="ion-trash-a"></i><span>Delete</span></button>
+                                            </li>
+                                        </ul>
                                     </div>
                                 @endforeach
                                 @else

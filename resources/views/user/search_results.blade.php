@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-title-heading">
-                        <h1 class="title">Listing</h1>
+                        <h1 class="title">Search Listings</h1>
                     </div><!-- /.page-title-captions -->
                     <div class="breadcrumbs">
                         <ul>
@@ -42,7 +42,7 @@
                         @foreach($services as $service)
                         <div class="flat-product clearfix">
                             <div class="featured-product">
-                                <img src="/images/services/single_service_1170x600/{{$service->image}}" alt="image">
+                                <img src="/images/services/user_listing_290x182/{{$service->image}}" alt="image">
                                 <div class="time bg-green">
                                     Now Open
                                 </div>

@@ -73,12 +73,13 @@ class SearchController extends Controller
         }
 
 
-        if ($sub_category && $district && $keyword && $budget) {
+        if ($sub_category && $district && $keyword) {
             $service=Company::where('district', $district)
                 ->where('sub_category_id', $sub_category)
                 ->where('price','<=', $budget)
                 ->where('name', 'LIKE', '%' . $keyword . '%')
                 ->where('active', 1)->paginate(5);
+            return $service;
             if ($service->count() > 0) {
                 return view('user.search_results', ['services' => $service]);
             } else {

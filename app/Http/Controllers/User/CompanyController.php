@@ -316,6 +316,10 @@ class CompanyController extends Controller
             ->save(public_path() . '/images/services/our_location_370x370/' . $photoName);
 
         Image::make($image_path)
+            ->resize(290, 182)
+            ->save(public_path() . '/images/services/user_listing_290x182/' . $photoName);
+
+        Image::make($image_path)
             ->resize(770, 370)
             ->save(public_path() . '/images/services/our_location_770x370/' . $photoName);
 

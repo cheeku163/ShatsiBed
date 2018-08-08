@@ -3,436 +3,450 @@
     <title>HomeTourism : {{$company->name}}</title>
 @endsection
 @section('content')
+    @include('flash::message')
 
-    <div id="content" class="site-content">
-        <div id="tropical-banner" class=" text-center clearfix">
-            <img src="/assets/images/banner.jpg" alt="banner"/>
-            <div class="container banner-contents clearfix">
-                @include('user.search')
-            </div>
-            <div class="breadcrumb-wrapper clearfix">
-                <div class="container">
-                    <ol class="breadcrumb">
-                        <li><a href="/" >Home</a></li>
-                        <li class="active">{{$company->name}}</li>
-                    </ol>
-                </div>
-            </div>
-            <span class="overlay"></span>
+    <!-- Page title -->
+    <div class="page-title parallax parallax1">
+        <div class="section-overlay">
         </div>
-        @include('flash::message')
-        <section class="tour-single clearfix">
-            <div class="container">
-
-                <div class="row">
-                    <div class="col-lg-9 col-sm-8">
-                        <header class="entry-header animatedParent clearfix">
-                            <h4 class="pull-left tour-single-title animated growIn slower">{{$company->name}}</h4>
-                            <span class="pull-left" style="color: #FDC600; font-size: 16px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                Views ({{$company->views}})</span>
-                            <span class="tour-price-single pull-right animated growIn slower" style="color: #FDC600">
-                               @for ($k=1; $k <= 5 ; $k++)
-                                    <span data-title="Average Rate: 5 / 5"
-                                          class="bottom-ratings tip">
-                                                        <span class="glyphicon glyphicon-star{{ ($k <= $company->rating) ? '' : '-empty'}}"></span>
-                                                            </span>
-                                @endfor
-                                ({{$company->rating}})
-                            </span>
-                            <label class="switch1 pull-right">
-                                <input type="checkbox" id="sus-check-company{{$company->id}}"
-                                       data-property-id="{{$company->id}}"
-                                       onchange="fullbooking({{$company->id}});">
-                                <div class="slider1 round"></div>
-                            </label>
-                            <p class="pull-right">&nbsp;&nbsp;&nbsp;&nbsp;Full Booking: &nbsp;</p>
-                            <span>
-                                @if(Auth::guard('user')->user())
-                                    @if(Auth::guard('user')->user()->id==$company->user_id)
-                                        <a class="t-btn btn-sm btn-info pull-right" href="/home/{{$company->slug}}/edit">Edit</a>
-                                    @endif
-                                @endif
-
-                            </span>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-title-heading">
+                        <h1 class="title" style="text-transform: capitalize;">{{$company->name}}</h1>
+                    </div><!-- /.page-title-captions -->
+                    <div class="breadcrumbs">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li> - </li>
+                            <li>{{$company->name}} Details</li>
+                        </ul>
+                    </div><!-- /.breadcrumbs -->
+                </div><!-- /.col-md-12 -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </div><!-- /.page-title -->
 
 
-                        </header>
-                        <article class="tour-post-single clearfix">
-                            <div class="tour-single-slider animatedParent clearfix">
-                                <div class="slier tour-single-slider-for animated fadeInUpShort">
-                                    <div class="item">
-                                        <img src="/images/services/single_service_1170x600/{{$company->image}}"
-                                             alt="Tour Single"/></div>
+    <!-- Blog posts -->
+    <section class="main-content page-listing">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="listing-wrap">
+                        <div class="tf-gallery">
+                            <div id="tf-slider">
+                                <ul class="slides">
                                     @if(App\ServiceImage::where('company_id',$company->id)->count()>0)
                                         @foreach(App\ServiceImage::where('company_id',$company->id)->get() as $S_images)
-                                        <div class="item">
-                                            <img src="/images/services/single_service_1170x600/{{$S_images->image}}" alt="Tour Single"/></div>
+                                            <li>
+                                                <img src="/images/services/single_service_1170x600/{{$S_images->image}}" alt="image">
+                                            </li>
                                         @endforeach
                                     @endif
-                                </div>
-                                <div class="slider tour-single-slider-nav animated fadeInUpShort">
-                                    <div class="item slick-active">
-                                        <img src="/images/services/single_service_1170x600/{{$company->image}}"
-                                             alt="Tour Single"/></div>
+                                </ul>
+                            </div>
+
+                            <div id="tf-carousel">
+                                <ul class="slides">
                                     @if(App\ServiceImage::where('company_id',$company->id)->count()>0)
                                         @foreach(App\ServiceImage::where('company_id',$company->id)->get() as $S_images)
-                                            <div class="item">
-                                                <img src="/images/services/single_service_1170x600/{{$S_images->image}}"
-                                                     alt="Tour Single"/></div>
+                                            <li>
+                                                <img src="/images/services/service_listing_364x244/{{$S_images->image}}" alt="image">
+                                            </li>
                                         @endforeach
                                     @endif
-                                </div>
+                                </ul>
                             </div>
-                            <div class="tour-single-contents animatedParent clearfix">
-                                <div class="tour-post-meta pull-right animated fadeInUpShort clearfix">
-                                    <span><i class="fa fa-map-marker"></i><strong>Address : &nbsp;
-                                        </strong>{{$company->address}}</span>
-                                    <span><i class="fa fa-briefcase"></i><strong>Status : &nbsp;
-                                        </strong>@if($company->full_booking>0)<b style="color: red">Fully Booked</b>
-                                        @else Vaccant @endif</span>
-                                    <span><i class="fa fa-tags"></i><strong>Price : &nbsp;
-                                        </strong>$ {{number_format($company->price)}}</span>
-                                </div>
-                                <p> {{$company->description}}</p>
-                                <footer class="tour-contents-footer clearfix">
-                                    @if(Auth::guard('user')->user())
-                                        @if($company->full_booking<1)
-                                    <a class="t-btn btn-red pull-right" href="#" data-toggle="modal"
-                                       data-target="#booking-popup">BOOK THIS HOME</a>
-                                        @else
-                                            <a class="t-btn btn-red pull-right" href="#">Fully Booked</a>
-                                        @endif
-
-                                    @else
-                                        <a class="t-btn btn-red pull-right" href="#" data-toggle="modal"
-                                           data-target="#booking-popup">REQUEST A HOST HOME</a>
-                                    @endif
-                                    <div class="modal fade" id="booking-popup" tabindex="-1" role="dialog"
-                                         aria-labelledby="booking-popup" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <form method="post" action="{{route('submit.request')}}">
-                                                {{ csrf_field() }}
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span></button>
-                                                    @if(Auth::guard('user')->user() )
-                                                        <h4 class="modal-title">Book this Home</h4>
-                                                        <input name="type" value="1" type="hidden"/>
-                                                    @else
-                                                        <h4 class="modal-title">Request this Home</h4>
-                                                        <input name="type" value="2" type="hidden"/>
-                                                    @endif
-                                                </div>
-                                                <div class="modal-body col-md-12">
-                                                    @if(!Auth::guard('user')->user() )
-                                                        <div class="form-group">
-                                                            <div class="input-icon">
-                                                                <input name="name" class="form-control"
-                                                                       placeholder="Your Full Name" type="text" required/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="input-icon">
-                                                                <input name="contact" class="form-control"
-                                                                       placeholder="Your Contact" type="text" required/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="input-icon">
-                                                                <input name="email" class="form-control"
-                                                                       placeholder="Your Email Address" type="text" required/>
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                    <div class="form-group">
-                                                        <div class="input-icon">
-                                                            <input name="age" class="form-control"
-                                                                   placeholder="How old are you?" type="text" required/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="input-icon">
-                                                            <select name="gender">
-                                                                <option value="male">Male</option>
-                                                                <option value="female">Female</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="input-icon">
-                                                            <input name="guests" class="form-control"
-                                                                   placeholder="Number of Guests" type="text" required/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="input-icon">
-                                                            <input name="profession" class="form-control"
-                                                                   placeholder="Your Profession" type="text" required/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="input-icon">
-                                                            <input name="period" class="form-control"
-                                                                   placeholder="Period of Stay" type="text" required/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="input-icon">
-                                                            <input name="service_id" value="{{$company->id}}" type="hidden"/>
-                                                            <input name="slug" value="{{$company->slug}}" type="hidden"/>
-
-                                                            <input name="location" class="form-control"
-                                                                   placeholder="Preferred  location" type="text" required/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="input-icon">
-                                                        <textarea rows="3" class="form-control" name="expectations"
-                                                                  placeholder="Enter request info" type="text">
-                                                            Detailed Expectations....
-                                                        </textarea>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn-sm btn-warning pull-left"
-                                                            data-dismiss="modal">
-                                                        <i class="fa fa-close"></i>
-                                                    </button>
-                                                    <input type="submit" class="btn-sm btn-primary" value="Submit">
-                                                </div>
-
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </footer>
-                            </div>
-
-                            <div class="tour-single-rates animatedParent clearfix">
-                                <div class="accommodation animated fadeInUpShort clearfix">
-                                    <ul class="clearfix">
-                                        <li><strong>Home Occupants</strong> <span class="circle-icon"></span></li>
-                                        <li>@if($company->adults>0)
-                                                {{$company->adults}} Adults
-                                            @else
-                                                No Adults
-                                            @endif
-                                            <span class="circle-icon"></span></li>
-                                        <li>@if($company->children>0)
-                                                {{$company->children}} Children
-                                            @else
-                                                No Children
-                                            @endif
-                                        </li>
-
-                                    </ul>
-                                    <ul class="clearfix">
-                                        <li><strong>Community Setup</strong></li>
-                                        <li>@if($company->town>0)
-                                                Town Setting
-                                            @else
-                                                Village setting
-                                            @endif
-                                        </li>
-                                        <li>@if($company->shoppingmall>0)
-                                                Near Shopping Mall
-                                            @else
-                                                No Shopping Mall
-                                            @endif
-                                        </li>
-
-                                    </ul>
-                                    <ul class="clearfix">
-                                        <li><strong>Latrines and Toilets</strong></li>
-                                        <li>@if($company->toilet>0)
-                                                {{$company->toilet}} Toilets
-                                            @else
-                                                No Toilets
-                                            @endif
-                                        </li>
-                                        <li>@if($company->bathrooms>0)
-                                                {{$company->bathrooms}} Bathrooms
-                                            @else
-                                                No Bathrooms
-                                            @endif
-                                        </li>
-
-                                    </ul>
-                                </div>
-                                <div class="accommodation animated fadeInDownShort clearfix">
-                                    <ul class="clearfix">
-                                        <li>@if($company->hospital>0)
-                                                Hospital Nearby
-                                            @else
-                                                No Hospital Nearby
-                                            @endif
-                                            <span class="circle-icon"></span></li>
-                                        <li>@if($company->wifi>0)
-                                                Wifi available
-                                            @else
-                                                No Wifi available
-                                            @endif
-                                            <span class="circle-icon"></span></li>
-                                        <li>@if($company->wateraccess>0)
-                                                Water source available
-                                            @else
-                                                No Water source
-                                            @endif
-                                            <span class="circle-icon"></span></li>
-
-                                        <li>
-                                            @if($company->river_lake>0)
-                                                Water Body nearby
-                                            @else
-                                                No Water Body nearby
-                                            @endif
-                                        </li>
-                                    </ul>
-                                    <ul class="clearfix">
-                                        <li>
-                                            @if($company->mountain>0)
-                                                Mountain nearby
-                                            @else
-                                                No Mountain nearby
-                                                @endif
-                                        </li>
-                                        <li>
-                                            @if($company->nationalpark>0)
-                                                National Park nearby
-                                            @else
-                                                No National Park nearby
-                                            @endif
-                                        </li>
-                                        <li>
-                                            @if($company->swamp>0)
-                                                Swamp nearby
-                                            @else
-                                                No Swamp nearby
-                                            @endif
-                                        </li>
-                                        <li></li>
-                                    </ul>
-
-                                </div>
-                                @if(sizeof($company->features)>0)
-                                <h5 class="title-2"><strong>More features that might interest you</strong></h5>
-                                <section class="home-tour-type animatedParent clearfix">
-                                    <div class="container">
-                                        <div class="row">
-                                            @foreach($company->features as $type)
-                                                <div class="col-md-3 col-xs-6">
-                                                    <article class="service-var-2 animated fadeInLeftShort clearfix">
-                                                        <div class="contents-wrap">
-                                                            <h5 class="entry-title p-name">{{$type->feature}}</h5>
-                                                        </div>
-                                                    </article>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </section>
-                                @endif
-                            </div>
-                            <h5 class="title-2"><strong>Reviews and Comments</strong></h5>
-                            <section class="testimonial-var-two animatedParent clearfix" style="background-color: white">
-                                <div class="container">
-                                    <div class="row">
-                                        @foreach(App\Review::where('company_id', $company->id)->orderBy('created_at','DESC')->take(4)->get() as $reviews)
-                                        <div class="col-sm-4">
-                                            <article class="testimonial var-two animated fadeInLeftShort clearfix">
-                                                <figure class="avatar">
-                                                    <img src="/images/users/contact_user_74x74/{{$reviews->user->image}}" alt="avatar"/>
-                                                </figure>
-                                                <div class="contents">
-                                                    <p>“{{$reviews->review}}” </p>
-                                                    <cite class="fn">- <strong>{{$reviews->user->name}}</strong></cite>
-                                                </div>
-                                            </article>
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </section>
-                            <form method="post" action="{{route('user.review.submit')}}">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="company_id" value="{{ $company->id }}">
-
-                                <div class="row" style="padding-left:15px;">
-                                    <div class="col-sm-8 col-xs-10">
-                                        <div class="range-advanced-main">
-                                            <div class="range-text">
-                                                <label><span class="range-title">Rate:</span></label>
-                                                {{Form::hidden('rating', null, array('id'=>'ratings-hidden'))}}
-                                                <div class="text-left">
-                                                    <div class="stars starrr"></div>
-                                                    <a href="#" class="btn btn-danger btn-sm" id="close-review-box"
-                                                       style="display:none; margin-right:10px;">
-                                                        <span class="glyphicon glyphicon-remove"></span>Cancel</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-8 col-xs-10">
-                                        <div class="form-group">
-                                            <label><span class="range-title">Review:</span></label>
-                                            <textarea class="form-control" name="review" rows="5"
-                                                      placeholder="Your review"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    &nbsp;&nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-common">submit review</button>
-                                </div>
-                            </form>
-                        </article>
-                        @if(sizeof($related_homes)>0)
-                        <div class="related-tours clearfix">
-                            <header class="header-with-nav animatedParent clearfix">
-                                <h3 class="title pull-left animated growIn slower">Related Homes</h3>
-                            </header>
-                            <div class="row">
-                                @foreach($related_homes as $related)
-                                <div class="col-md-4 col-xs-6 animatedParent">
-                                    <article class="tour-post animated fadeInRightShort">
-                                        <header class="tour-post-header clearfix">
-                                            <span class="tour-price pull-left">
-                                                $ {{number_format($related->price)}}</span>
-                                            <span class="tour-days pull-right" style="color: #FDC600">
+                        </div><!-- /.tf-gallery -->
+                        <div class="content-listing">
+                            <div class="text">
+                                <h3 class="title-listing">{{$company->name}}
+                                <span class="pull-right" style="color: #0D0000; font-size: 16px"> Views ({{$company->views}})
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        Full Booking: &nbsp;
+                                    <label class="switch1 pull-right">
+                                        <input type="checkbox" id="sus-check-company{{$company->id}}"
+                                               data-property-id="{{$company->id}}"
+                                               onchange="fullbooking({{$company->id}});">
+                                        <div class="slider1 round"></div>
+                                    </label>
+                                </span>
+                                </h3>
+                                <ul class="rating-listing">
+                                    <li>
+                                        <div class="start-review">
+                                            <span class="tour-price-single pull-right animated growIn slower" style="color: #FDC600">
                                                     @for ($k=1; $k <= 5 ; $k++)
                                                     <span data-title="Average Rate: 5 / 5"
                                                           class="bottom-ratings tip">
-                                                        <span class="glyphicon glyphicon-star{{ ($k <= $related->rating) ? '' : '-empty'}}"></span>
+                                                        <span class="glyphicon glyphicon-star{{ ($k <= $company->rating) ? '' : '-empty'}}"></span>
                                                             </span>
                                                 @endfor
-                                                ({{$related->rating}})
-                                                </span>
-                                        </header>
-                                        <div class="tour-contents clearfix">
-                                            <figure class="tour-feature-img">
-                                                <img src="/images/services/single_service_1170x600/{{$related->image}}" alt="Image"/>
-                                            </figure>
-                                            <h5 class="entry-title p-name">{{$related->name}}</h5>
-                                            <span class="pull-left" style="color: #fd0b31">views ({{$related->views}})</span>
-                                            <a class="more-details u-url" href="/{{$related->slug}}">
-                                                See home details <i class="dashicons dashicons-arrow-right-alt2"></i></a>
+                                                ({{$company->rating}})
+                                            </span>
+                                            <span class="like"> ( {{$company->reviews->count()}} reviewers )</span>
                                         </div>
-                                    </article>
-                                </div>
-                                    @endforeach
+                                    </li>
+                                    <li>
+                                        <div class="social-links">
+                                        @if(Auth::guard('user')->user())
+                                            @if(Auth::guard('user')->user()->id==$company->user_id)
+                                                    <a type="button" class="button" href="/home/{{$company->slug}}/edit">
+                                                        <i class="ion-edit"></i><span> Edit</span></a>
+                                            @endif
+                                        @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="social-links">
+                                            <span>Share:</span>
+                                            <a href="#"><i class="fa fa-facebook"></i></a>
+                                            <a href="#"><i class="fa fa-twitter"></i></a>
+                                            <a href="#"><i class="fa fa-google-plus"></i></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <p>{{$company->description}}</p>
+                            </div>
+                            <h3 class="title-listing">Occupants and Community Setup</h3>
+                            <div class="wrap-list clearfix">
+
+                                <ul class="list float-left">
+                                    @if($company->adults>0)
+                                        <li><span>{{$company->adults}}</span> Adults</li>
+                                    @else
+                                        <li><span></span>No Adults</li>
+                                    @endif
+                                    @if($company->children>0)
+                                        <li><span>{{$company->children}}</span> Children</li>
+                                    @else
+                                        <li><span></span>No Children</li>
+                                    @endif
+                                        @if($company->toilet>0)
+                                            <li><span>{{$company->toilet}}</span> Toilets</li>
+                                        @else
+                                            <li><span></span>No Toilets</li>
+                                        @endif
+
+                                </ul>
+                                <ul class="list float-left">
+                                    @if($company->town>0)
+                                            <li><span><i class="fa fa-check"></i></span>Town Setting</li>
+                                        @else
+                                            <li><span></span>Village setting</li>
+                                        @endif
+                                        @if($company->shoppingmall>0)
+                                            <li><span><i class="fa fa-check"></i></span>Near Shopping Mall</li>
+                                        @else
+                                            <li><span></span>No Shopping Mall</li>
+                                        @endif
+                                        @if($company->bathrooms>0)
+                                            <li><span>{{$company->bathrooms}}</span> Bathrooms</li>
+                                        @else
+                                            <li><span></span>No Bathrooms</li>
+                                        @endif
+                                </ul>
+
+                            </div>
+                            <h3 class="title-listing">Features</h3>
+                            <div class="wrap-list clearfix">
+
+                                <ul class="list float-left">
+                                    @if($company->hospital>0)
+                                        <li><span><i class="fa fa-check"></i></span>Hospital Nearby</li>
+                                    @else
+                                        <li><span></span>No Hospital Nearby</li>
+                                    @endif
+                                    @if($company->wifi>0)
+                                            <li><span><i class="fa fa-check"></i></span>Wifi available</li>
+                                        @else
+                                            <li><span></span>No Wifi available</li>
+                                        @endif
+                                        @if($company->wateraccess>0)
+                                            <li><span><i class="fa fa-check"></i></span>Water source available</li>
+                                        @else
+                                            <li><span></span>No Water source</li>
+                                        @endif
+
+                                </ul>
+                                <ul class="list float-left">
+
+                                    @if($company->river_lake>0)
+                                            <li><span><i class="fa fa-check"></i></span>Water Body nearby</li>
+                                        @else
+                                            <li><span></span>No Water Body nearby</li>
+                                        @endif
+                                        @if($company->mountain>0)
+                                            <li><span><i class="fa fa-check"></i></span>Mountain nearby</li>
+                                        @else
+                                            <li><span></span>No Mountain nearby</li>
+                                        @endif
+                                        @if($company->nationalpark>0)
+                                            <li><span><i class="fa fa-check"></i></span>National Park nearby</li>
+                                        @else
+                                            <li><span></span>No National Park nearby</li>
+                                        @endif
+                                </ul>
+                                <ul class="list float-left">
+                                    @if($company->swamp>0)
+                                        <li><span><i class="fa fa-check"></i></span>Swamp nearby</li>
+                                    @else
+                                        <li><span></span>No Swamp nearby</li>
+                                    @endif
+
+                                </ul>
+                            </div>
+
+                            <div class="list-comment">
+                                <h3 class="title-listing">{{$company->reviews->count()}} Reviews</h3>
+                                <div class="comments-area">
+                                    <ol class="comment-list">
+                                        @foreach($company->reviews as $review)
+                                        <li class="comment">
+                                            <article class="comment-body clearfix">
+                                                <div class="comment-author">
+                                                    <img src="/images/users/contact_user_74x74/{{$review->user->image}}" alt="image">
+                                                </div><!-- .comment-author -->
+                                                <div class="comment-text">
+                                                    <div class="comment-metadata">
+                                                        <h5><a href="#">{{$review->user->name}}</a></h5>
+                                                        <p class="day"><i class="fa fa-clock-o"></i> {{$review->created_at->format('M d, Y \a\t h:i a')}}</p>
+                                                        <div class="flat-start">
+                                                            <span class="tour-price-single pull-right animated growIn slower"
+                                                                  style="color: #FDC600">
+                                                                @for ($k=1; $k <= 5 ; $k++)
+                                                                    <span data-title="Average Rate: 5 / 5" class="bottom-ratings tip">
+                                                                    <span class="glyphicon glyphicon-star{{ ($k <= $review->rating) ? '' : '-empty'}}">
+                                                                    </span>
+                                                                    </span>
+                                                                @endfor
+                                                            </span>
+                                                        </div>
+                                                    </div><!-- .comment-metadata -->
+                                                    <div class="comment-content">
+                                                        <p>{{$review->review}} </p>
+                                                    </div><!-- .comment-content -->
+                                                </div><!-- /.comment-text -->
+                                            </article><!-- .comment-body -->
+                                        </li><!-- #comment-## -->
+                                        @endforeach
+                                    </ol><!-- .comment-list -->
+
+                                    <div class="comment-respond" id="respond">
+                                        <h3 class="title-listing">Add a Review</h3>
+                                        <form novalidate="" class="comment-form clearfix" id="commentform" method="post"
+                                              action="{{route('user.review.submit')}}">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="company_id" value="{{ $company->id }}">
+                                            <div class="wrap-input clearfix">
+                                                <div class="start-review">
+                                                    {{Form::hidden('rating', null, array('id'=>'ratings-hidden'))}}
+                                                    <label><span class="range-title">Rate:</span> </label>
+                                                    <div class="start-review">
+                                                        <div class="stars starrr pull-left"></div>
+                                                        <a href="#" class="btn btn-danger btn-sm" id="close-review-box"
+                                                           style="display:none;">
+                                                            <span class="glyphicon glyphicon-remove"></span>Cancel</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="comment-form-comment">
+                                                <label><span class="range-title">Review:</span></label>
+                                                <textarea class="" tabindex="4" placeholder="Preview" name="review" required></textarea>
+                                            </p>
+                                            <p class="form-submit">
+                                                <button class="comment-submit effect-button">Send Review</button>
+                                            </p>
+                                        </form>
+                                    </div><!-- /.comment-respond -->
+                                </div><!-- /.comments-area -->
+                            </div>
+
+                        </div>
+                    </div><!-- /.listing-wrap -->
+                </div><!-- /.col-lg-9 -->
+                <div class="col-lg-3">
+                    <div class="sidebar">
+                        <div class="widget widget_listing">
+                            <h5 class="widget-title">Popular Listing</h5>
+                            <ul>
+                                @foreach($popular as $popular)
+                                <li>
+                                    <div class="featured">
+                                        <a href="/{{$popular->slug}}" class="effect">
+                                            <img src="/images/services/others_100x75/{{$popular->image}}" alt="image"></a>
+                                    </div>
+                                    <div class="info-listing">
+                                        <h6><a href="/{{$popular->slug}}" >{{$popular->name}}</a></h6>
+                                        <div class="start-review">
+                                            <span class="tour-price-single pull-right animated growIn slower"
+                                                  style="color: #FDC600">
+                                                @for ($k=1; $k <= 5 ; $k++)
+                                                    <span data-title="Average Rate: 5 / 5" class="bottom-ratings tip">
+                                                        <span class="glyphicon glyphicon-star{{ ($k <= $popular->rating) ? '' : '-empty'}}">
+                                                        </span>
+                                                    </span>
+                                                @endfor
+                                            </span>
+                                            <a href="/{{$popular->slug}}" class="review">
+                                                {{$popular->reviews->count()}} Reviews</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class=" widget widget-form">
+                            @if(Auth::guard('user')->user())
+                                @if($company->full_booking<1)
+                                <p class="form-submit text-center">
+                                    <button class="book-submit effect-button"
+                                            href="#" data-toggle="modal"
+                                            data-target="#booking-popup">Book now</button>
+                                </p>
+                                @else
+                                    <p class="form-submit text-center">
+                                        <button class="book-submit effect-button">Fully Booked</button>
+                                    </p>
+                                @endif
+                                @else
+                                @if($company->full_booking<1)
+                                <p class="form-submit text-center">
+                                    <button class="book-submit effect-button"
+                                            href="#" data-toggle="modal"
+                                            data-target="#booking-popup">Request this Home</button>
+                                </p>
+                                @else
+                                    <p class="form-submit text-center">
+                                        <button class="book-submit effect-button">Fully Booked</button>
+                                    </p>
+                                @endif
+                                @endif
+                        </div>
+                        <div class="widget widget-contact">
+                            <h5 class="widget-title">Contact Us</h5>
+                            <ul>
+                                <li class="adress">PO Box 16122 Collins Street West Victoria 8007 Australia</li>
+                                <li class="phone">+61 3 8376 6284</li>
+                                <li class="email">Yourplace@gmail.com</li>
+                                <li class="time">
+                                    <span>Mon - Thur:</span> 8:00 am - 10:00 pm<br>
+                                    <span>Fri - Sat:</span> 10:00 am - 1:00 am<br>
+                                    <span>Sun: </span> 10:00 am - 10:00 pm
+                                </li>
+                            </ul>
+                            <div class="social-links">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-google-plus"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
                             </div>
                         </div>
-                            @endif
-                    </div>
-                    @include('user.right_bar')
-                </div>
+                    </div><!-- /.sidebar -->
+                </div><!-- /.col-md-3 -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </section>
+
+    <div class="modal fade" id="booking-popup">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form method="post" action="{{route('submit.request')}}">
+            {{ csrf_field() }}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                @if(Auth::guard('user')->user() )
+                    <h4 class="modal-title">Book this Home</h4>
+                    <input name="type" value="1" type="hidden"/>
+                @else
+                    <h4 class="modal-title">Request this Home</h4>
+                    <input name="type" value="2" type="hidden"/>
+                @endif
             </div>
-        </section>
+            <div class="modal-body col-md-12">
+                @if(!Auth::guard('user')->user() )
+                    <div class="form-group">
+                        <div class="input-icon">
+                            <input name="name" class="form-control"
+                                   placeholder="Your Full Name" type="text" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon">
+                            <input name="contact" class="form-control"
+                                   placeholder="Your Contact" type="text" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon">
+                            <input name="email" class="form-control"
+                                   placeholder="Your Email Address" type="text" required/>
+                        </div>
+                    </div>
+                @endif
+                <div class="form-group">
+                    <div class="input-icon">
+                        <input name="age" class="form-control"
+                               placeholder="How old are you?" type="text" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <select name="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <input name="guests" class="form-control"
+                               placeholder="Number of Guests" type="text" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <input name="profession" class="form-control"
+                               placeholder="Your Profession" type="text" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <input name="period" class="form-control"
+                               placeholder="Period of Stay" type="text" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <input name="service_id" value="{{$company->id}}" type="hidden"/>
+                        <input name="slug" value="{{$company->slug}}" type="hidden"/>
 
+                        <input name="location" class="form-control"
+                               placeholder="Preferred  location" type="text" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <textarea rows="3" class="form-control" name="expectations"
+                                  placeholder="Enter request info" type="text">Detailed Expectations....
+                        </textarea>
+                    </div>
+                </div>
 
+            </div>
 
-    </div><!-- .site-content -->
-    @endsection
+            <div class="modal-footer">
+                <button type="button" class="btn-sm btn-warning pull-left"
+                        data-dismiss="modal">Cancel
+                </button>
+                <input type="submit" class="btn-sm btn-primary pull-right" value="Submit">
+            </div>
+
+        </form>
+        </div>
+    </div>
+    </div>
+
+@endsection

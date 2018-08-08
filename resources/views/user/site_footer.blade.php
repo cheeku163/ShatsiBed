@@ -40,7 +40,7 @@
                         <li>
                             <div class="featured">
                                 <a href="#" class="effect">
-                                    <img src="/images/services/featured_slider_370x202/{{$featured->image}}" alt="image">
+                                    <img src="/images/services/latest_reviews_50x50/{{$featured->image}}" alt="image">
                                 </a>
                             </div>
                             <div class="info-listing">
@@ -53,7 +53,7 @@
                                             </span>
                                         @endfor
                                         </span>
-                                    <a href="#" class="review">( {{$service->rating}} rating )</a>
+                                    <a href="#" class="review">( {{$featured->rating}} rating )</a>
                                 </div>
                             </div>
                         </li>
@@ -207,8 +207,9 @@
             </div>
         </div>
     </div>
-</div><div class="modal fade flat-popupform" id="booking-popup">
-    <div class="modal-dialog modal-lg">
+</div>
+<div class="modal fade" id="booking-popup">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
